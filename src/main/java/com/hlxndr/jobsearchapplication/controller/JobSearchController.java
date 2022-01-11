@@ -36,6 +36,12 @@ public class JobSearchController {
                 HttpStatus.CREATED);
     }
 
+    /**
+     * after registering a new position, the response gives back an url composed with the given job's id
+     * this is the endpoint for that link
+     * @param id
+     * @return
+     */
     @GetMapping(path ="/position/job")
     public ResponseEntity<Optional<Position>> addedPosition(@RequestParam("id") Long id) {
         return new ResponseEntity<>(

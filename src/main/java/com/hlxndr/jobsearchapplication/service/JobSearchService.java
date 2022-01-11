@@ -30,7 +30,6 @@ public class JobSearchService {
         // check if email already registered
         boolean clientExist = clientRepo.findByEmail(clientApp.getEmail()).isPresent();
 
-
         if(clientExist) {
             throw new IllegalStateException("email already registered");
         }
