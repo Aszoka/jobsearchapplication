@@ -1,6 +1,5 @@
 package com.hlxndr.jobsearchapplication.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,18 +22,8 @@ public class Position {
     @Column(length = 50)
     private String location;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    private ClientApp postedBy;
-
     public Position(String jobTitle, String location) {
         this.jobTitle = jobTitle;
         this.location = location;
-    }
-
-    public Position(String jobTitle, String location, ClientApp postedBy) {
-        this.jobTitle = jobTitle;
-        this.location = location;
-        this.postedBy = postedBy;
     }
 }
