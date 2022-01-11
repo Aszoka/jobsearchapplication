@@ -19,6 +19,7 @@ import java.util.Map;
 public class CustomException extends ResponseEntityExceptionHandler {
 
     @Override
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers, HttpStatus status,
                                                                   WebRequest request) {
@@ -33,16 +34,4 @@ public class CustomException extends ResponseEntityExceptionHandler {
         return new ResponseEntity<Object>(errors,HttpStatus.BAD_REQUEST);
     }
 
-    /*@ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationExceptions(
-            MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        return errors;
-    }*/
 }
