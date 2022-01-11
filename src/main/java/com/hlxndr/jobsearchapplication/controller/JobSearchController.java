@@ -38,7 +38,7 @@ public class JobSearchController {
 
     /**
      * after registering a new position, the response gives back an url composed with the given job's id
-     * this is the endpoint for that link
+     * this is the endpoint for that link and the job can be checked
      * @param id
      * @return
      */
