@@ -1,5 +1,6 @@
 package com.hlxndr.jobsearchapplication.controller;
 
+import com.hlxndr.jobsearchapplication.dto.ClientDTO;
 import com.hlxndr.jobsearchapplication.model.ClientApp;
 import com.hlxndr.jobsearchapplication.model.Position;
 import com.hlxndr.jobsearchapplication.service.JobSearchService;
@@ -24,8 +25,8 @@ public class JobSearchController {
     private final JobSearchService jobSearchService;
 
     @PostMapping("/clients")
-    public ResponseEntity<UUID> registerClient( @RequestBody ClientApp clientApp) {
-        return new ResponseEntity<>(jobSearchService.registerClient(clientApp), HttpStatus.CREATED);
+    public ResponseEntity<UUID> registerClient( @RequestBody @Valid ClientDTO clientDTO) {
+        return new ResponseEntity<>(jobSearchService.registerClient(clientDTO), HttpStatus.CREATED);
     }
 
     @PostMapping("/positions")

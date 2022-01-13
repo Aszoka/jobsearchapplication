@@ -1,5 +1,6 @@
 package com.hlxndr.jobsearchapplication.service;
 
+import com.hlxndr.jobsearchapplication.dto.ClientDTO;
 import com.hlxndr.jobsearchapplication.model.ClientApp;
 import com.hlxndr.jobsearchapplication.model.Position;
 import com.hlxndr.jobsearchapplication.repository.ClientRepo;
@@ -25,7 +26,12 @@ public class JobSearchService {
     private final PositionRepo positionRepo;
     private final ClientRepo clientRepo;
 
-    public UUID registerClient(ClientApp clientApp) {
+    public UUID registerClient(ClientDTO clientDTO) {
+
+        ClientApp clientApp = new ClientApp(
+                clientDTO.getEmail(),
+                clientDTO.getName()
+        );
 
         // check if email already registered
         boolean clientExist = clientRepo.findByEmail(clientApp.getEmail()).isPresent();
