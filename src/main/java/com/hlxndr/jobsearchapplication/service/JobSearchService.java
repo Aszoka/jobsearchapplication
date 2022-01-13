@@ -1,6 +1,7 @@
 package com.hlxndr.jobsearchapplication.service;
 
 import com.hlxndr.jobsearchapplication.dto.ClientDTO;
+import com.hlxndr.jobsearchapplication.dto.PositionDTO;
 import com.hlxndr.jobsearchapplication.model.ClientApp;
 import com.hlxndr.jobsearchapplication.model.Position;
 import com.hlxndr.jobsearchapplication.repository.ClientRepo;
@@ -53,7 +54,12 @@ public class JobSearchService {
     }
 
 
-    public String addPosition(UUID apikey,Position position) {
+    public String addPosition(UUID apikey, PositionDTO positionDTO) {
+
+        Position position = new Position(
+                positionDTO.getJobTitle(),
+                positionDTO.getLocation()
+        );
 
         if(!isApiKeyExists(apikey)) {
             throw new IllegalStateException("Invalid apikey.");
@@ -71,13 +77,13 @@ public class JobSearchService {
         return positionRepo.findById(id);
     }
 
-    public List<Position> findByNameAndLocation(UUID apikey, String name, String location) {
+    public List<Position> findByNameAndLocation(UUID apikey, PositionDTO positionDTO) {
 
         if(!isApiKeyExists(apikey)) {
             throw new IllegalStateException("Invalid apikey.");
         }
 
-        Position position = new Position(name, location);
+        Position position = new Position(positionDTO.getJobTitle(), positionDTO.getLocation());
 
         return positionRepo
                 .findByJobTitleContainingIgnoreCaseAndLocationContainingIgnoreCase(position.getJobTitle(), position.getLocation());

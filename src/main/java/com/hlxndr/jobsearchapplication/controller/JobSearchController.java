@@ -1,6 +1,7 @@
 package com.hlxndr.jobsearchapplication.controller;
 
 import com.hlxndr.jobsearchapplication.dto.ClientDTO;
+import com.hlxndr.jobsearchapplication.dto.PositionDTO;
 import com.hlxndr.jobsearchapplication.model.ClientApp;
 import com.hlxndr.jobsearchapplication.model.Position;
 import com.hlxndr.jobsearchapplication.service.JobSearchService;
@@ -31,9 +32,9 @@ public class JobSearchController {
 
     @PostMapping("/positions")
     public ResponseEntity<String> addPosition(@RequestParam UUID apikey,
-                                              @Valid @RequestBody Position position) {
+                                              @Valid @RequestBody PositionDTO positionDTO) {
         return new ResponseEntity<>(
-                jobSearchService.addPosition(apikey, position),
+                jobSearchService.addPosition(apikey, positionDTO),
                 HttpStatus.CREATED);
     }
 
@@ -52,11 +53,15 @@ public class JobSearchController {
 
     @GetMapping(path ="/search")
     public ResponseEntity<List<String>> listSearchedPositions(@RequestParam UUID apikey,
-                                                              @RequestParam @Size(max = 50, message = "maximum 50 characters")String jobTitle,
-                                                              @RequestParam @Size(max = 50, message = "maximum 50 characters") String location) {
+                                                              @RequestParam @Valid String jobTitle,
+                                                              @RequestParam @Valid String location) {
 
+      @Valid PositionDTO positionDTO = new PositionDTO(
+                jobTitle,
+                location
+        );
         return new ResponseEntity<>(
-                jobSearchService.listJobUrls(jobSearchService.findByNameAndLocation(apikey,jobTitle, location)),
+                jobSearchService.listJobUrls(jobSearchService.findByNameAndLocation(apikey,positionDTO)),
                 HttpStatus.OK) ;
     }
 }
