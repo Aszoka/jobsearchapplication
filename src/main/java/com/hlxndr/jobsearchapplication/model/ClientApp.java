@@ -34,4 +34,10 @@ public class ClientApp {
         this.name = name;
         positions = new ArrayList<>();
     }
+
+    public ClientApp(String email, String name, UUID ownApiKey) {
+        this.email = email;
+        this.name = name;
+        this.ownApiKey = ownApiKey;
+    }
 }
