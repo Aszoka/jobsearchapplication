@@ -61,7 +61,7 @@ public class JobSearchController {
                 location
         );
         return new ResponseEntity<>(
-                jobSearchService.listJobUrls(jobSearchService.findByNameAndLocation(apikey,positionDTO)),
+                jobSearchService.listJobUrls(apikey,positionDTO),
                 HttpStatus.OK) ;
     }
 }

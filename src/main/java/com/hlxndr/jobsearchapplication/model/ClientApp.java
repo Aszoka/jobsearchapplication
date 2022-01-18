@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -24,8 +26,12 @@ public class ClientApp {
     private String name;
     private UUID ownApiKey;
 
+    @OneToMany
+    private List<Position> positions;
+
     public ClientApp(String email, String name) {
         this.email = email;
         this.name = name;
+        positions = new ArrayList<>();
     }
 }

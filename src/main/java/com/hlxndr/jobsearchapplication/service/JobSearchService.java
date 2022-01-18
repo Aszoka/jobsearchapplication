@@ -56,19 +56,29 @@ public class JobSearchService {
 
     public String addPosition(UUID apikey, PositionDTO positionDTO) {
 
-        Position position = new Position(
-                positionDTO.getJobTitle(),
-                positionDTO.getLocation()
-        );
 
         if(!isApiKeyExists(apikey)) {
             throw new IllegalStateException("Invalid apikey.");
         }
-        positionRepo.save(position);
 
-        Long id = position.getId();
+        Optional<ClientApp> postedByOptional = clientRepo.findByOwnApiKey(apikey);
+        ClientApp postedBy = new ClientApp();
 
-        String url = "http://localhost:8081/api/v1/position/job?id=" + id;
+        if(postedByOptional.isPresent()) {
+            postedBy = postedByOptional.get();
+        }
+
+        Position position = new Position(
+                positionDTO,
+                postedBy
+        );
+
+            positionRepo.save(position);
+
+            Long id = position.getId();
+
+            String url = "http://localhost:8081/api/v1/position/job?id=" + id;
+
 
         return url;
     }
@@ -77,19 +87,21 @@ public class JobSearchService {
         return positionRepo.findById(id);
     }
 
-    public List<Position> findByNameAndLocation(UUID apikey, PositionDTO positionDTO) {
+    private List<Position> findByNameAndLocation(UUID apikey, PositionDTO positionDTO) {
 
         if(!isApiKeyExists(apikey)) {
             throw new IllegalStateException("Invalid apikey.");
         }
 
-        Position position = new Position(positionDTO.getJobTitle(), positionDTO.getLocation());
+        Position position = new Position(positionDTO);
 
         return positionRepo
-                .findByJobTitleContainingIgnoreCaseAndLocationContainingIgnoreCase(position.getJobTitle(), position.getLocation());
+                .findByJobTitleContainingIgnoreCaseAndLocationContainingIgnoreCase(
+                        position.getJobTitle(), position.getLocation());
     }
 
-    public List<String> listJobUrls (List<Position> positions) {
+    public List<String> listJobUrls (UUID apikey, PositionDTO positionDTO) {
+        List<Position> positions = findByNameAndLocation(apikey, positionDTO);
         List<String> urls = new ArrayList<>();
 
         for(Position pos : positions) {
