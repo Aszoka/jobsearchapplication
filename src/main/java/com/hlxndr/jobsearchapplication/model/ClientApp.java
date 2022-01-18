@@ -1,5 +1,6 @@
 package com.hlxndr.jobsearchapplication.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -25,14 +26,14 @@ public class ClientApp {
     //@Size(min = 3, max = 100, message = "Name must be between 3 and 100 characters")
     private String name;
     private UUID ownApiKey;
-
-    @OneToMany
-    private List<Position> positions;
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Position> positions = new ArrayList<>();
 
     public ClientApp(String email, String name) {
         this.email = email;
         this.name = name;
-        positions = new ArrayList<>();
+
     }
 
     public ClientApp(String email, String name, UUID ownApiKey) {
