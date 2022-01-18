@@ -40,5 +40,3 @@ Future development ideas:</br>
   option for generating new apikeys, give expiration time, edit access (apikey with full access or partial)</br>
   users can save and apply for jobs, upload files, for example CV</br>
   messaging service</br>
-
-
